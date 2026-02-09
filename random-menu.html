@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Trap The King - Online Battle</title>
+    <link rel="stylesheet" href="random-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="menu-container">
+        <div class="top-bar">
+            <button class="back-btn" onclick="window.location.href='index.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="title-section">
+    <h1>Battle Arena</h1>
+</div>
+            <div class="coin-display">
+                <i class="fas fa-coins coin-icon"></i>
+                <span id="userCoins">Loading...</span>
+            </div>
+        </div>
+        <hr>
+
+        <div class="roles-container">
+            
+            <div class="role-card king-card" onclick="startMatchmaking('king')">
+                <div class="card-icon">👑</div>
+                <h3>Play as KING</h3>
+                <div class="fee-badge">Entry: 50 <i class="fas fa-coins"></i></div>
+            </div>
+
+            <div class="role-card pawn-card" onclick="startMatchmaking('pawn')">
+                <div class="card-icon">♟️</div>
+                <h3 class="role">Play as PAWNS</h3>
+                <div class="fee-badge">Entry: 50 <i class="fas fa-coins"></i></div>
+            </div>
+
+            <div class="role-card random-card" onclick="startMatchmaking('random')">
+                <div class="card-icon">🎲</div>
+                <h3>ANY ROLE</h3>
+                
+                <div class="fee-badge">Entry: 50 <i class="fas fa-coins"></i></div>
+            </div>
+
+        </div>
+
+        <div id="loadingOverlay" class="overlay hidden">
+            <div class="loader-box">
+                <div class="spinner"></div>
+                <h2 id="loadingText">Searching for Opponent...</h2>
+                <p id="loadingSubText">Estimated wait: 10s</p>
+                <button class="cancel-btn" onclick="cancelSearch()">Cancel</button>
+            </div>
+        </div>
+
+        <div id="lowBalancePopup" class="overlay hidden">
+            <div class="popup-box">
+                <h2>💔 Out of Coins!</h2>
+                <p>You need 50 coins to play.</p>
+                <button class="reward-btn" onclick="claimDailyBonus()">Get Free 50 Coins</button>
+                <button class="close-btn" onclick="closePopup()">Close</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
+    <script src="random-matchmaking.js"></script>
+
+</body>
+</html>

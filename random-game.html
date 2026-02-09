@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Online Battle</title>
+    <link rel="stylesheet" href="random-game.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="rotateWarning">
+        <i class="fas fa-mobile-alt fa-rotate-90" style="font-size: 40px; margin-bottom: 20px;"></i>
+        <p>Please Rotate Your Phone<br>to Landscape Mode</p>
+    </div>
+
+    <div class="game-wrapper">
+
+        <div class="board-section">
+            <div class="board-container">
+                <svg id="board" viewBox="-60 -60 575 575">
+                    <g stroke="#0f1111" stroke-width="2.5" style="pointer-events: none;"></g>
+                    <g stroke="#0f1111" stroke-width="2.5">
+                        <line x1="0" y1="0" x2="0" y2="472"/>
+                        <line x1="118" y1="0" x2="118" y2="472"/>
+                        <line x1="236" y1="0" x2="236" y2="472"/>
+                        <line x1="354" y1="0" x2="354" y2="472"/>
+                        <line x1="472" y1="0" x2="472" y2="472"/>
+                        <line x1="0" y1="0" x2="472" y2="0"/>
+                        <line x1="0" y1="118" x2="472" y2="118"/>
+                        <line x1="0" y1="236" x2="472" y2="236"/>
+                        <line x1="0" y1="354" x2="472" y2="354"/>
+                        <line x1="0" y1="472" x2="472" y2="472"/>
+                        <line x1="0" y1="0" x2="472" y2="472"/>
+                        <line x1="472" y1="0" x2="0" y2="472"/>
+                        <line x1="236" y1="0" x2="0" y2="236"/>
+                        <line x1="0" y1="236" x2="236" y2="472"/>
+                        <line x1="236" y1="0" x2="472" y2="236"/>
+                        <line x1="472" y1="236" x2="236" y2="472"/>
+                    </g>
+                    
+                    <g id="points"></g>
+                    <g id="pieces"></g> 
+                </svg>
+            </div>
+        </div>
+
+        <div class="hud-panel">
+            
+            <div class="player-card opponent">
+                <div class="avatar"><i class="fas fa-user-secret"></i></div>
+                <div class="info">
+                    <span class="name" id="oppName">Opponent</span>
+                    <div class="timer-track">
+                        <div id="oppTimerBar" class="timer-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-center">
+                <h2 id="gameStatusText">Connecting...</h2>
+                <div id="turnBadge" class="turn-badge">Waiting</div>
+                <div class="move-tracker">Moves Left: <span id="moveCountDisplay">100</span></div>
+            </div>
+
+            <div class="player-card self">
+                <div class="avatar" style="background:#4ade80; color:black;"><i class="fas fa-user"></i></div>
+                <div class="info">
+                    <span class="name">You</span>
+                    <div class="timer-track">
+                        <div id="myTimerBar" class="timer-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-row">
+                <button class="icon-btn" id="soundBtn" onclick="toggleSound()">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                <button class="surrender-btn" onclick="showSurrenderConfirm()">
+                    <i class="fas fa-flag"></i> Give Up
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="gameOverModal" class="modal-overlay hidden">
+        <div class="win-card">
+            <div class="win-icon" id="winIcon">🏆</div>
+            <h2 id="winTitle">GAME OVER</h2>
+            <p id="winMessage">Result...</p>
+            <div class="win-buttons">
+                <button onclick="window.location.href='random-menu.html'" class="home-btn">
+                    🏠 Back to Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="random-game-logic.js"></script> 
+
+</body>
+</html>
