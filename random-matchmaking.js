@@ -1,13 +1,13 @@
-// --- FIREBASE SETUP ---
-// Apni wahi purani Firebase config yahan paste karein
+// --- FIREBASE CONFIG (Paste this at the top of random-matchmaking.js) ---
 const firebaseConfig = {
-    apiKey: "AIzaSy...",
-    authDomain: "trap-the-king...",
-    databaseURL: "https://trap-the-king...firebaseio.com",
-    projectId: "trap-the-king...",
-    storageBucket: "trap-the-king...",
-    messagingSenderId: "...",
-    appId: "..."
+    apiKey: "AIzaSyAXORFD8QNwVgPw38_wgqZd3U21oTJ4z1w",
+    authDomain: "trap-the-king.firebaseapp.com",
+    databaseURL: "https://trap-the-king-default-rtdb.firebaseio.com",
+    projectId: "trap-the-king",
+    storageBucket: "trap-the-king.firebasestorage.app",
+    messagingSenderId: "279741214015",
+    appId: "1:279741214015:web:d7418a7ceaf57deaf0378a",
+    measurementId: "G-5ZF0F5RJ1C"
 };
 
 // Initialize Firebase
@@ -15,7 +15,6 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 const db = firebase.database();
-
 // --- GLOBAL VARIABLES ---
 let myPlayerId = localStorage.getItem("tt_player_id");
 let myCoins = parseInt(localStorage.getItem("tt_coins") || "500");
