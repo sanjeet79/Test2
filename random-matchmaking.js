@@ -54,9 +54,16 @@ function startMatchmaking(selectedRole) {
 // --- 3. FIND ROOM LOGIC (Main Brain) ---//
 function findRoom(myRole) {
     const roomsRef = db.ref('rooms');
-    
-    // Status text update
-    document.getElementById("status").innerText = "Searching for opponent...";
+    // GALAT (Jo abhi error de raha hai)
+// document.getElementById("status").innerText = "Searching for opponent...";
+
+// SAHI (Jo crash nahi hoga)
+const statusEl = document.getElementById("status");
+if (statusEl) {
+    statusEl.innerText = "Searching for opponent...";
+} else {
+    console.log("Searching for opponent... (Status element missing)");
+}
 
     // Query: Sirf wahi rooms lao jo 'waiting' mein hain
     roomsRef.orderByChild('status').equalTo('waiting').limitToFirst(10).once('value')
