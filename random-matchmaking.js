@@ -1,3 +1,6 @@
+// --- FIREBASE SETUP ---
+// Apni wahi purani Firebase config yahan paste karein
+
 // --- FIREBASE CONFIG (Paste this at the top of random-matchmaking.js) ---
 const firebaseConfig = {
     apiKey: "AIzaSyAXORFD8QNwVgPw38_wgqZd3U21oTJ4z1w",
@@ -48,54 +51,58 @@ function startMatchmaking(selectedRole) {
     findRoom(selectedRole);
 }
 
-// --- 3. FIND ROOM LOGIC (Main Brain) ---
+// --- 3. FIND ROOM LOGIC (Main Brain) ---//
 function findRoom(myRole) {
     const roomsRef = db.ref('rooms');
-    let targetLookingFor = 'any';
-
-    // Logic: Agar main King hoon, to mujhe wo room chahiye jahan koi Pawn dhoond raha ho
-    if (myRole === 'king') targetLookingFor = 'pawn';
-    else if (myRole === 'pawn') targetLookingFor = 'king';
     
-    // Firebase Query: "Waiting" rooms dhundo
+    // Status text update
+    document.getElementById("status").innerText = "Searching for opponent...";
+
+    // Query: Sirf wahi rooms lao jo 'waiting' mein hain
     roomsRef.orderByChild('status').equalTo('waiting').limitToFirst(10).once('value')
         .then((snapshot) => {
-            if (!isSearching) return; // Agar user ne cancel kar diya to ruk jao
-
-            let foundRoom = null;
-
             if (snapshot.exists()) {
                 const rooms = snapshot.val();
+                let foundRoom = null;
                 
-                // Filter: Check karo kya koi mere role ke hisaab se match hai?
+                console.log("Found Rooms:", rooms);
+
                 const roomKeys = Object.keys(rooms);
-                
                 for (let key of roomKeys) {
                     const r = rooms[key];
                     
-                    // CASE 1: Main Random hoon -> Koi bhi room chalega
-                    if (myRole === 'random') {
-                        foundRoom = key; 
-                        break;
-                    }
-                    // CASE 2: Specific Role Match
-                    // Agar main King hoon, to us room mein lookingFor 'king' hona chahiye
-                    else if (r.lookingFor === myRole || r.lookingFor === 'any') {
+                    // --- LOGIC FIX ---
+                    // Agar room kisi ka bhi wait kar raha hai, ya mere role ka wait kar raha hai
+                    // Ya agar maine 'Random' select kiya hai
+                    
+                    const isRoleMatch = (r.lookingFor === myRole) || (myRole === 'random') || (r.lookingFor === 'any');
+                    
+                    if (isRoleMatch) {
                         foundRoom = key;
-                        break;
+                        break; // Mil gaya! Loop roko.
                     }
                 }
-            }
 
-            if (foundRoom) {
-                joinRoom(foundRoom, myRole);
+                if (foundRoom) {
+                    joinRoom(foundRoom, myRole);
+                } else {
+                    // Room to tha, par role match nahi hua (e.g. King vs King)
+                    console.log("Room found but role mismatch. Creating new...");
+                    createRoom(myRole);
+                }
             } else {
+                // Koi room nahi mila
                 createRoom(myRole);
             }
+        })
+        .catch((error) => {
+            console.error("Firebase Query Error:", error);
+            // Agar error aaye (Index wala), to naya room bana do taaki game atke na
+            createRoom(myRole);
         });
 }
-
-// --- 4. JOIN ROOM (Agar Room Mil Gya) ---
+// 
+ // --- 4. JOIN ROOM (Agar Room Mil Gya) ---
 function joinRoom(roomId, myRole) {
     const roomRef = db.ref('rooms/' + roomId);
     
